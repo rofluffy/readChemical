@@ -1,1 +1,3 @@
 # readChemical
+
+one of my tech interview question lol...
