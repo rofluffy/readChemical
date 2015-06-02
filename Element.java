@@ -14,4 +14,12 @@ public class Element {
 	public int getCoef(){
 		return this.coef;
 	}
+
+	public void setName(String newN){
+		this.name = newN;
+	}
+
+	public void setCoef(int newC){
+		this.coef = newC;
+	}
 }

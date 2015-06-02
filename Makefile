@@ -1,6 +1,7 @@
 all: ReadC.jar
 ReadC.jar: ReadC.java
 	javac ReadC.java
+	javac Element.java
 	jar cvfe ReadC.jar ReadC *.class
 
 run: ReadC.jar
