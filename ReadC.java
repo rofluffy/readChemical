@@ -6,8 +6,11 @@ import java.util.*;
 
 public class ReadC{
 	static final int MAX_LEN = 255;
-	//ArrayList<Element> formular = new ArrayList<Element>();
 
+
+/*
+Assume that every input of chemical is correct and coefficients are within 9
+*/
 	public static void main(String[] args) throws IOException{
 
 		// if (args.length != 1){
@@ -25,7 +28,7 @@ public class ReadC{
 
 		// get cmd line
 		for (int len = 1; len>0;){
-			System.out.print("Please enter your element: ");
+			System.out.print("Please enter your chemical: ");
 			len = System.in.read(cmdString);
 			String chemical = new String(cmdString, 0, len-1);
 
@@ -34,16 +37,16 @@ public class ReadC{
 			}
 
 			// print chemical
-			System.out.println("len is: " + chemical.length());
+			//System.out.println("len is: " + chemical.length());
 			printChemical(chemical);
-			readChem(chemical);
+			//ArrayList<Element> formular = readChem(chemical);
 		}
 		//System.out.println("your chemical is:" + chemical);
 			
 
 	}
 
-	public static void readChem(String chemical){
+	public static ArrayList<Element> readChem(String chemical){
 
 		// empty list of elements
 		ArrayList<Element> formular = new ArrayList<Element>();
@@ -60,8 +63,6 @@ public class ReadC{
 			if (Character.isUpperCase(c)){
 				// UpperCase implies a new element is started
 
-				//System.out.println("It's upper: " + c);
-
 				// if newE's name is not empty, add to formular
 				if (newE.getName() != ""){
 					formular.add(newE);
@@ -69,28 +70,68 @@ public class ReadC{
 
 				name = Character.toString(c);
 				newE = new Element(name, coef);
+				//System.out.println("It's upper: " + c);
 
 			}else if (Character.isLowerCase(c)){
 				// LowerCase implies it's follow up of the previous one
-				//System.out.println("It's lower: " + c);
 
 				String newN = newE.getName() + Character.toString(c);
 				newE.setName(newN);
+				//System.out.println("It's lower: " + c);
 
 			}else if (Character.isDigit(c)){
 				// Int implies it's coef of an element
-				//System.out.println("It's int: " + c);
+				
 				int newC = Character.getNumericValue(c);
 				newE.setCoef(newC);
+				//System.out.println("It's int: " + c);
 			}
+
+			// end case
+			if (i == chemical.length()-1){
+				formular.add(newE);
+			}
+
 		}
 
-		System.out.println("check len of formular: " + formular.size());
+		//System.out.println("check len of formular: " + formular.size());
+		return formular;
+	}
+
+	// print formular
+	public static void printElements(ArrayList<Element> formular){
+		for (Element e : formular){
+			printElement(e);
+		}
+	}
+
+	private static void printElement(Element e){
+		System.out.print("Name: "+ e.getName() + ", Coefficion: " + e.getCoef() + "\n");
+	}
+
+	// Sum number of elements
+	public static int countElements(ArrayList<Element> formular){
+		int sum = 0;
+		for (Element e : formular){
+			sum += countElement(e);
+		}
+
+		return sum;
+	}
+
+	private static int countElement(Element e){
+		return e.getCoef();
 	}
 
 	public static void printChemical(String chemical){
 
+		ArrayList<Element> formular = readChem(chemical);
+		int noE = countElements(formular);
+
 		System.out.println("your chemical is:" + chemical);
+		System.out.println("It has " + noE + " elements: ");
+		printElements(formular);
+		System.out.println("\n");
 
 	}
 
